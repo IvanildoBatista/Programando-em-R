@@ -1,0 +1,182 @@
+---
+title: "Estatistica Descritiva"
+author: "Ivanildo Batista"
+date: "6 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Estatistica descritiva
+
+Script para trabalhar com estatistica com a Linguagem R e esse script diz respeito ao capitulo 1 do livro Estatistica para Cientistas de Dados. A medida que cada comando e for executado sera,o mesmo sera explicado.
+
+Nesse capitulo sao apresentados os tipos de dados (continuos, discretos, categoricos, binarios e ordinais), estimativas de localizacao ou posicao, estimativas de variabilidade, distribuicao dos dados, correlacao e exploracao de variaveis.
+
+Definindo diretorio
+```{r}
+setwd("/Users/junio")
+```
+
+Verificando o diretorio:
+```{r}
+getwd()
+```
+
+Irei importar os dados:
+```{r}
+paises <- read.csv("C:/Users/junio/countries.csv")
+```
+
+Visualizar a base de dados
+```{r}
+paises
+paises = na.omit(paises)
+```
+
+Nomes das colunas da base de dados
+```{r}
+colnames(paises)
+```
+
+Primeiras linhas da base de dados
+```{r}
+head(paises)
+```
+
+Ultimas linhas da base de dados
+```{r}
+tail(paises)
+```
+
+Numero de linhas
+```{r}
+nrow(paises)
+```
+
+Numero de colunas
+```{r}
+ncol(paises)
+```
+
+Tabela com os dados
+```{r}
+str(paises)
+```
+
+Irei trabalhar com a coluna 'Population' (populacao)
+```{r}
+View(paises[['Population']])
+```
+
+
+**MEDIDAS DE POSICAO OU LOCALIZACAO**
+
+A primeira medida que usarei e a media, que nada mais e que a soma dos valores de todas as observacoes da coluna populacao e dividido pelo numero de observacoes  (tambem pode ser chamada de media aritmetica simples). Uma desvantagem dessa medida e que ela pode ser influenciada por valores extremos ou *outliers*.
+
+```{r}
+mean(paises[['Population']])
+```
+
+A proxima medida e a media aparada, que nada mais e que a media, porem os valores que se encontram ponta (extremos) sao eliminado. Cabe a quem esta trabalhando com a base de dados que proporcao deve ser eliminada. Isso e bom diminuir a influencia dos *outliers*.
+
+```{r}
+#media aparada 10%
+mean(paises[['Population']],trim=0.1)
+#media aparada 20%
+mean(paises[['Population']],trim=0.2)
+#media aparada 30%
+mean(paises[['Population']],trim=0.3)
+```
+
+Podemos notar que a medida que o termo de *aparacao* aumenta, a media diminui
+
+A proxima medida de localizacao e a mediana, que e imune a *outliers*.
+```{r}
+median(paises[['Population']])
+```
+
+Veja que a media e maior que a media aparada que e maior que a mediana.
+
+**MEDIDAS DE DISPERSAO**
+
+Sao medidas de dispersao os desvios (erros ou residuos), a variancia, desvio padrao, desvio mediano absoluto, percentis e o Intervalo Interquartil (IQR). 
+
+O desvio e a diferenca entre os valores observados e a estimativa de localizacao
+#usando a media temos
+```{r}
+desvios <- (paises[['Population']] - mean(paises[['Population']]))
+resultados <- sum(desvios)/227
+resultados
+```
+
+Variancia e a soma dos quadrados dos desvios divididos por *n-1*, onde *n* e o numero de observacoes.
+```{r}
+sum(desvios^2)/226
+```
+
+Desvio padrao e a raiz quadrada da variancia:
+```{r}
+resultados2 <- sum(desvios^2)/226
+resultados2^0.5
+```
+
+ou
+```{r}
+sd(paises[['Population']])
+```
+
+Desvio mediano absoluto:
+```{r}
+mad(paises[['Population']])
+```
+
+Intervalo Interquartil:
+```{r}
+IQR(paises[['Population']])
+```
+
+O desvio padrao e a variancia sao as medidas de dispersao mais conhecidas, porem sao sensiveis a *outliers*.
+
+**DISTRIBUICAO DOS DADOS**
+
+Em estatistica, alem de analisar as medidas de localizacao e dispersao, tambem e bom analisar como os dados estao distribuidos. Para isso existem outras metricas e ferramentas para analisar a distribuicao.
+
+Os percentis servem para gerar, tambem, os decis e os quantis. Irei gerar varios quantis.
+```{r}
+quantile(paises$Population,p=c(0.05, 0.25, 0.5, 0.75, 0.9, 0.95))
+```
+
+O Boxplot e um tipo de grafico que permite visualizar como estao os principais quantis e se ha valores *outliers* nos dados, como pode-se ver abaixo:
+```{r}
+boxplot(paises$Population/1000000, ylab='Populacao por milhao')
+```
+
+Tabela de frequencia da populacao por pais
+```{r}
+breaks <- seq(from = min(paises$Population), to = max(paises$Population),
+              length=228)
+pop_freq <- cut(paises$Population, breaks = breaks, right=TRUE, include.lowest = TRUE)
+table(pop_freq)
+```
+
+Histograma e uma grafico usado para visualizar a distribuicao dos dados. No nosso histograma gerado vemos que temos muitos dados concentrados a esquerda.
+
+```{r}
+hist(paises$Population, breaks = breaks)
+```
+
+Tambem e possivel plotar o grafico com uma linha chamada KDE (estimativa de densidade) do Kernel. 
+
+```{r}
+hist(paises$Population, freq=FALSE)
+lines(density(paises$Population), lwd=1, col="blue")
+
+hist(paises$Area..sq..mi.., freq=FALSE)
+lines(density(paises$Area..sq..mi..), lwd=1, col="blue")
+
+hist(paises$GDP....per.capita., freq=FALSE)
+lines(density(paises$GDP....per.capita.), lwd=1, col="red")
+```
