@@ -1,0 +1,165 @@
+---
+title: "Trabalhando com estruturas de controle"
+author: "Ivanildo Batista"
+date: "7 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Trabalhando com estruturas de controle IF, ELSE, FOR e WHILE
+
+**IF-ELSE**
+```{r}
+x=25#definido uma variavel
+```
+
+Se x for menor que 30, imprimir a frase em chaves
+```{r}
+if (x<30)
+{"Este numero e menor que 30"}
+```
+
+ou
+```{r}
+if (x<30)
+  "Este numero e menor que 30"
+```
+
+ELSE seria o "caso contrario" ou o "senao":
+```{r}
+if(x<7){
+  "Este numero e menor que 7"
+}else{
+  "Este numero nao e menor que 7"
+}
+```
+
+Comandos aninhados
+
+```{r}
+x=7
+
+if (x<7){
+  "Este numero e menor que 7"
+}else if (x==7){
+  "Este numero e o 7"
+}else{
+  "Este numero nao e menor que 7"
+}
+```
+
+**IFELSE**
+```{r}
+x=5
+```
+
+```{r}
+ifelse(x<6, "Correto!",NA) #vai imprimir a mensagem
+```
+
+```{r}
+x = 9
+```
+
+```{r}
+ifelse(x<6, "Correto!", NA) #nao vai imprimir a mensagem
+```
+
+**IFELSE aninhados**
+```{r}
+x = c(5,6,4)
+```
+
+```{r}
+ifelse(x<5, "menor que 5",
+       ifelse(x==5,"Igual a 5",'Maior que 5'))
+```
+
+Dentro de funcoes
+```{r}
+func1 = function(x,y){
+  ifelse(y<7, x+y, 'Nao encontrado')
+}
+```
+
+```{r}
+func1(4,2) #vai somar os valores, pois x e menor que 7
+func1(40,7) #nao vai somar os valores, pois x e maior que 7
+```
+
+**Funcao rep()**
+```{r}
+rep(rnorm(10),5) #vai repetir os 10 valores gerados pela distribuicao normal 5x
+```
+
+**Funcao repeat()**
+
+A partir de um valor inicial (x=1) vai fazer o processo varias vezes ate chegar no valor de parada, que no nosso caso e 99.
+```{r}
+x=1
+```
+```{r}
+repeat{
+  x=x+3
+  if(x>99)
+    break
+  print(x)
+}
+```
+
+**LOOP FOR**
+
+```{r}
+for (i in 1:20){print(i)} #dados os valores dentro do intervalo, todos serao impressos
+```
+
+```{r}
+for (q in rnorm(10)){print(i)} #imprimir todos os 10 valores gerados pela distribuicao normal
+```
+
+Ignorando elementos de um *loop*
+```{r}
+for(i in 1:20){
+  if(i==13 | i==15)
+    next
+  print(i)
+}
+```
+Imprimir todos os valores, mas com excecao dos valores 13 e 15.
+
+Interromper *loop*
+```{r}
+for(i in 1:22){
+  if(i==13)
+    break
+  print(i)
+} #dos elementos dos intervalos, quando chegar em 12 a impressao do valores ira parar
+```
+
+**LOOP WHILE**
+```{r}
+x=1
+```
+
+
+```{r}
+while(x<5){
+  x=x+1
+  print(x)
+} #imprimir valores menores iguais a 5
+```
+
+Quando o *while* nao sera implementado
+```{r}
+y = 6
+```
+
+```{r}
+while(y<5){
+  y=y+10
+  print(y)}
+```
+Nao vai funcinar, pois *y* deve ser menor que 5, porem e igual a 6 em um *loop while* sempre lembrar de colocar o mecanismo de interrompimento para o *loop* nao ficar sendo gerado infinitamente.
