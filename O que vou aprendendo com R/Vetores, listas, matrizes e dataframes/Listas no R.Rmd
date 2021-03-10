@@ -1,0 +1,129 @@
+---
+title: "Listas"
+author: "Ivanildo Batista"
+date: "10 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Listas
+
+Listas sao generalizacoes de vetores e usa-se a funcao *list()* para cria-las:
+
+```{r}
+#criando varios tipos de listas
+lista_caracter=list('A','Ola','Estatistica')
+lista_caracter #lista de caracteres
+
+lista_inteiros=list(1,2,3,4)
+lista_inteiros #lista de numeros inteiros
+
+lista_numerico=list(1.90,45.3,300.5)
+lista_numerico #lista de numero nao inteiros
+
+lista_complexos=list(5.2+3i, 2.4+8i)
+lista_complexos #lista de numeros complexos
+
+lista_logicos=list(TRUE, FALSE, FALSE)
+lista_logicos #lista de booleanos
+
+lista_composta=list('A',3,TRUE)
+lista_composta #lista com tipos diferentes de elementos
+
+lista1=list(1:10, c('Maria','Jose','Jesus'), rnorm(10))
+lista1 #outra lista com tipos diferentes de elementos
+```
+
+Slicing de listas
+```{r}
+lista1[1]#primeiro elemento de uma lista
+lista1[c(1,2)] #primeiro e segundo elemento de uma lista
+lista1[2] #segundo elemento de uma lista
+lista1[[2]][1]#primeira parte do segundo elemento de uma lista
+lista1[[2]][1] = 'Monica' #substituindo elementos de uma lista
+lista1
+```
+
+Nomeando elementos de uma lista
+```{r}
+names(lista1) = c('inteiros','caracteres','numericos')
+```
+
+```{r}
+lista1
+```
+
+Outra forma
+```{r}
+vec_num=1:4
+vec_var=c('A','B','C','D')
+
+lista2 = list(Numeros = vec_num, Letras=vec_var)
+lista2
+```
+
+Nomeando diretamente
+```{r}
+lista2 = list(elemento1 = 3:5, elemento2 = c(7.2,3.5))
+lista2
+```
+
+Trabalhando com elementos especificos
+```{r}
+names(lista1) = c('inteiros','caracteres','numericos') #renomeando a lista1
+lista1 #verificando se houva a renomeacao
+```
+
+Acessando elementos da lista pelo titulo
+```{r}
+lista1$caracteres 
+lista1$inteiros
+lista1$numericos
+```
+
+Verificando o comprimento de cada elemento da lista
+```{r}
+length(lista1$caracteres)
+length(lista1$inteiros)
+length(lista1$numericos)
+```
+
+Extraindo elemento especifico dentro de cada nivel da lista
+```{r}
+lista1$caracteres[2]
+```
+
+Mode de cada elemento
+```{r}
+mode(lista1$inteiros)
+mode(lista1$caracteres)
+mode(lista1$numericos)
+```
+
+Combinando listas
+```{r}
+lista3 = c(lista1, lista2)
+lista3
+```
+
+Transformando vetores em listas
+```{r}
+v=c(1:3)
+v
+
+l = as.list(v)
+l
+```
+
+Unindo elementos de uma lista
+```{r}
+mat1 = matrix(1:4, nrow=2)
+mat1
+vec = c(1:9)
+vec
+lst = list(mat1, vec)
+lst
+```
