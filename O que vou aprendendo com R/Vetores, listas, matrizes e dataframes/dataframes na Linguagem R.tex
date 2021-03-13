@@ -1,0 +1,682 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdftitle={Dataframes na Linguagem R},
+            pdfauthor={Ivanildo Batista},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Dataframes na Linguagem R}
+\author{Ivanildo Batista}
+\date{27 de janeiro de 2021}
+
+\begin{document}
+\maketitle
+
+\subsection{Dataframes}\label{dataframes}
+
+Trabalhando com \textbf{dataframes} na linguagem R.
+
+Abaixo, iniciarei criando um dataframe vazio e depois verificando sua
+classe:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df=}\KeywordTok{data.frame}\NormalTok{() }\CommentTok{#um dataframe vazio}
+\KeywordTok{class}\NormalTok{(df)}\CommentTok{#verificando a classe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\CommentTok{#sem linhas e colunas}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## data frame with 0 columns and 0 rows
+\end{verbatim}
+
+\textbf{Criando vetores vazios:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nomes =}\StringTok{ }\KeywordTok{character}\NormalTok{() }\CommentTok{#vetor de caracteres}
+\NormalTok{idades =}\StringTok{ }\KeywordTok{numeric}\NormalTok{() }\CommentTok{#vetor de numeros}
+\NormalTok{data =}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(}\KeywordTok{character}\NormalTok{()) }\CommentTok{#vetor de datas}
+\NormalTok{codigos =}\StringTok{ }\KeywordTok{integer}\NormalTok{() }\CommentTok{#vetor de inteiros}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Transformando esses vetores em um dataframe:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(nomes,idades,data,codigos))}
+\NormalTok{df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] c.nomes..idades..data..codigos.
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\textbf{Criando vetores:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pais =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'EUA'}\NormalTok{,}\StringTok{'Dinamarca'}\NormalTok{,}\StringTok{'Brasil'}\NormalTok{,}\StringTok{'Espanha'}\NormalTok{,}\StringTok{'Holanda'}\NormalTok{)}
+\NormalTok{nome =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Alberto'}\NormalTok{,}\StringTok{'Claudio'}\NormalTok{,}\StringTok{'Joao'}\NormalTok{,}\StringTok{'Jose'}\NormalTok{,}\StringTok{'Gilberto'}\NormalTok{)}
+\NormalTok{altura =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{1.93}\NormalTok{,}\FloatTok{1.59}\NormalTok{,}\FloatTok{1.63}\NormalTok{,}\FloatTok{1.59}\NormalTok{,}\FloatTok{1.58}\NormalTok{)}
+\NormalTok{codigo =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{5069}\NormalTok{,}\DecValTok{3258}\NormalTok{,}\DecValTok{6358}\NormalTok{,}\DecValTok{1258}\NormalTok{,}\DecValTok{4555}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Criando o dataframe:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(pais,nome,altura,codigo)}
+\NormalTok{pesq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        pais     nome altura codigo
+## 1       EUA  Alberto   1.93   5069
+## 2 Dinamarca  Claudio   1.59   3258
+## 3    Brasil     Joao   1.63   6358
+## 4   Espanha     Jose   1.59   1258
+## 5   Holanda Gilberto   1.58   4555
+\end{verbatim}
+
+\textbf{Inserindo uma nova coluna:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{olhos =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'verde'}\NormalTok{,}\StringTok{'castanho'}\NormalTok{,}\StringTok{'azul'}\NormalTok{,}\StringTok{'azul'}\NormalTok{,}\StringTok{'castanho'}\NormalTok{)}
+\NormalTok{pesq =}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pesq,olhos)}
+\NormalTok{pesq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        pais     nome altura codigo    olhos
+## 1       EUA  Alberto   1.93   5069    verde
+## 2 Dinamarca  Claudio   1.59   3258 castanho
+## 3    Brasil     Joao   1.63   6358     azul
+## 4   Espanha     Jose   1.59   1258     azul
+## 5   Holanda Gilberto   1.58   4555 castanho
+\end{verbatim}
+
+\textbf{Informacoes sobre o dataframe:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(pesq) }\CommentTok{#informacoes gerais do dataframe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    5 obs. of  5 variables:
+##  $ pais  : chr  "EUA" "Dinamarca" "Brasil" "Espanha" ...
+##  $ nome  : chr  "Alberto" "Claudio" "Joao" "Jose" ...
+##  $ altura: num  1.93 1.59 1.63 1.59 1.58
+##  $ codigo: num  5069 3258 6358 1258 4555
+##  $ olhos : chr  "verde" "castanho" "azul" "azul" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(pesq) }\CommentTok{#dimnesao do dataframe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(pesq) }\CommentTok{#comprimento do dataframe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\textbf{Obtendo um vetor do dataframe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq}\OperatorTok{$}\NormalTok{pais}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "EUA"       "Dinamarca" "Brasil"    "Espanha"   "Holanda"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq}\OperatorTok{$}\NormalTok{altura}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.93 1.59 1.63 1.59 1.58
+\end{verbatim}
+
+\textbf{Extraindo um valor unico do dataframe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "EUA"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq[}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Joao"
+\end{verbatim}
+
+\textbf{Numero de linhas e de colunas do dataframe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nrow}\NormalTok{(pesq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ncol}\NormalTok{(pesq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\textbf{Primeiros elementos do dataframe:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(pesq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        pais     nome altura codigo    olhos
+## 1       EUA  Alberto   1.93   5069    verde
+## 2 Dinamarca  Claudio   1.59   3258 castanho
+## 3    Brasil     Joao   1.63   6358     azul
+## 4   Espanha     Jose   1.59   1258     azul
+## 5   Holanda Gilberto   1.58   4555 castanho
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+\end{verbatim}
+
+\textbf{Ultimos elementos do dataframe:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tail}\NormalTok{(pesq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        pais     nome altura codigo    olhos
+## 1       EUA  Alberto   1.93   5069    verde
+## 2 Dinamarca  Claudio   1.59   3258 castanho
+## 3    Brasil     Joao   1.63   6358     azul
+## 4   Espanha     Jose   1.59   1258     azul
+## 5   Holanda Gilberto   1.58   4555 castanho
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tail}\NormalTok{(mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 mpg cyl  disp  hp drat    wt qsec vs am gear carb
+## Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.7  0  1    5    2
+## Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2
+## Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.5  0  1    5    4
+## Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.5  0  1    5    6
+## Maserati Bora  15.0   8 301.0 335 3.54 3.570 14.6  0  1    5    8
+## Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.6  1  1    4    2
+\end{verbatim}
+
+\textbf{Filtrando o dataframe}
+
+Irei filtrar para selecionar todas as linhas onde o valor de altura seja
+menor que 1.60 metro.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq[altura}\OperatorTok{<}\FloatTok{1.60}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       nome codigo    olhos
+## 1  Alberto   5069    verde
+## 2  Claudio   3258 castanho
+## 3     Joao   6358     azul
+## 4     Jose   1258     azul
+## 5 Gilberto   4555 castanho
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pesq[altura}\OperatorTok{<}\FloatTok{1.60}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{'codigo'}\NormalTok{,}\StringTok{'olhos'}\NormalTok{)] }\CommentTok{#selecionada as colunas codigo e olhos,}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   codigo    olhos
+## 2   3258 castanho
+## 4   1258     azul
+## 5   4555 castanho
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#para os valores de altura menores que 1.60}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Nomeando dataframes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(pesq) =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Pais'}\NormalTok{,}\StringTok{'Nome'}\NormalTok{,}\StringTok{'Altura'}\NormalTok{,}\StringTok{'Codigos'}\NormalTok{,}\StringTok{'Olhos'}\NormalTok{)}
+\NormalTok{pesq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Pais     Nome Altura Codigos    Olhos
+## 1       EUA  Alberto   1.93    5069    verde
+## 2 Dinamarca  Claudio   1.59    3258 castanho
+## 3    Brasil     Joao   1.63    6358     azul
+## 4   Espanha     Jose   1.59    1258     azul
+## 5   Holanda Gilberto   1.58    4555 castanho
+\end{verbatim}
+
+\textbf{Renomeando apenas colunas}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{colnames}\NormalTok{(pesq) =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Var 1'}\NormalTok{,}\StringTok{'Var 2'}\NormalTok{,}\StringTok{'Var 3'}\NormalTok{,}\StringTok{'Var 4'}\NormalTok{,}\StringTok{'Var 5'}\NormalTok{) }
+\NormalTok{pesq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Var 1    Var 2 Var 3 Var 4    Var 5
+## 1       EUA  Alberto  1.93  5069    verde
+## 2 Dinamarca  Claudio  1.59  3258 castanho
+## 3    Brasil     Joao  1.63  6358     azul
+## 4   Espanha     Jose  1.59  1258     azul
+## 5   Holanda Gilberto  1.58  4555 castanho
+\end{verbatim}
+
+\textbf{Renomeando apenas as linhas}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rownames}\NormalTok{(pesq) =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Obs 1"}\NormalTok{,}\StringTok{"Obs 2"}\NormalTok{,}\StringTok{"Obs 3"}\NormalTok{,}\StringTok{"Obs 4"}\NormalTok{,}\StringTok{"Obs 5"}\NormalTok{) }
+\NormalTok{pesq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Var 1    Var 2 Var 3 Var 4    Var 5
+## Obs 1       EUA  Alberto  1.93  5069    verde
+## Obs 2 Dinamarca  Claudio  1.59  3258 castanho
+## Obs 3    Brasil     Joao  1.63  6358     azul
+## Obs 4   Espanha     Jose  1.59  1258     azul
+## Obs 5   Holanda Gilberto  1.58  4555 castanho
+\end{verbatim}
+
+\textbf{Formas de ler bases de dados:} read.csv() - arquivos csv
+read.xls() - arquivos excel read.spss() - arquivos spss read.mtp() -
+arquivos minitab read.table() - arquivos txt read.delim() - leitura de
+arquivos delimitados
+
+\textbf{Dataframe de um arquivo csv}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df2 =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{'C:/Users/junio/dframe.csv'}\NormalTok{,}
+                          \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{','}\NormalTok{))}
+\NormalTok{df2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ID       Nome Idade    Admdate Diabete Status
+## 1  1 Paciente 1    43 15/10/2015  Tipo 1   Ruim
+## 2  2 Paciente 2    23 16/10/2015  Tipo 2    Bom
+## 3  3 Paciente 3    56 23/10/2015  Tipo 2    Bom
+## 4  4 Paciente 4    34 23/10/2015  Tipo 1   Ruim
+## 5  5 Paciente 5    38 31/10/2015  Tipo 1  Medio
+## 6  6 Paciente 6    37 28/10/2015  Tipo 1   Bom 
+## 7  7 Paciente 7    41 27/10/2015  Tipo 1   Ruim
+\end{verbatim}
+
+\textbf{Primeiras linhas do dataframe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(df2) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ID       Nome Idade    Admdate Diabete Status
+## 1  1 Paciente 1    43 15/10/2015  Tipo 1   Ruim
+## 2  2 Paciente 2    23 16/10/2015  Tipo 2    Bom
+## 3  3 Paciente 3    56 23/10/2015  Tipo 2    Bom
+## 4  4 Paciente 4    34 23/10/2015  Tipo 1   Ruim
+## 5  5 Paciente 5    38 31/10/2015  Tipo 1  Medio
+## 6  6 Paciente 6    37 28/10/2015  Tipo 1   Bom
+\end{verbatim}
+
+\textbf{Sumario do dataframe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(df2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        ID          Nome               Idade         Admdate         
+##  Min.   :1.0   Length:7           Min.   :23.00   Length:7          
+##  1st Qu.:2.5   Class :character   1st Qu.:35.50   Class :character  
+##  Median :4.0   Mode  :character   Median :38.00   Mode  :character  
+##  Mean   :4.0                      Mean   :38.86                     
+##  3rd Qu.:5.5                      3rd Qu.:42.00                     
+##  Max.   :7.0                      Max.   :56.00                     
+##    Diabete             Status         
+##  Length:7           Length:7          
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+## 
+\end{verbatim}
+
+\textbf{Algumas colunas da base de dados}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df2}\OperatorTok{$}\NormalTok{Diabete }\CommentTok{#coluna diabetes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Tipo 1" "Tipo 2" "Tipo 2" "Tipo 1" "Tipo 1" "Tipo 1" "Tipo 1"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df2}\OperatorTok{$}\NormalTok{Status }\CommentTok{#forma correta}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Ruim"  "Bom"   "Bom"   "Ruim"  "Medio" "Bom "  "Ruim"
+\end{verbatim}
+
+\textbf{Gerando um graficos de dispersao}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{mpg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   15.43   19.20   20.09   22.80   33.90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{mpg, mtcars}\OperatorTok{$}\NormalTok{disp) }\CommentTok{#grafico de dispersao entre duas variaveis}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{knit_files/figure-latex/ars19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{mpg, mtcars}\OperatorTok{$}\NormalTok{wt) }\CommentTok{#outro grafico de dispersao entre duas variaveis }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{knit_files/figure-latex/ars19-2.pdf}
+
+\textbf{Combinando dataframes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df3 =}\StringTok{ }\KeywordTok{merge}\NormalTok{(pesq,df2)}
+\NormalTok{df3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Var 1    Var 2 Var 3 Var 4    Var 5 ID       Nome Idade    Admdate
+## 1        EUA  Alberto  1.93  5069    verde  1 Paciente 1    43 15/10/2015
+## 2  Dinamarca  Claudio  1.59  3258 castanho  1 Paciente 1    43 15/10/2015
+## 3     Brasil     Joao  1.63  6358     azul  1 Paciente 1    43 15/10/2015
+## 4    Espanha     Jose  1.59  1258     azul  1 Paciente 1    43 15/10/2015
+## 5    Holanda Gilberto  1.58  4555 castanho  1 Paciente 1    43 15/10/2015
+## 6        EUA  Alberto  1.93  5069    verde  2 Paciente 2    23 16/10/2015
+## 7  Dinamarca  Claudio  1.59  3258 castanho  2 Paciente 2    23 16/10/2015
+## 8     Brasil     Joao  1.63  6358     azul  2 Paciente 2    23 16/10/2015
+## 9    Espanha     Jose  1.59  1258     azul  2 Paciente 2    23 16/10/2015
+## 10   Holanda Gilberto  1.58  4555 castanho  2 Paciente 2    23 16/10/2015
+## 11       EUA  Alberto  1.93  5069    verde  3 Paciente 3    56 23/10/2015
+## 12 Dinamarca  Claudio  1.59  3258 castanho  3 Paciente 3    56 23/10/2015
+## 13    Brasil     Joao  1.63  6358     azul  3 Paciente 3    56 23/10/2015
+## 14   Espanha     Jose  1.59  1258     azul  3 Paciente 3    56 23/10/2015
+## 15   Holanda Gilberto  1.58  4555 castanho  3 Paciente 3    56 23/10/2015
+## 16       EUA  Alberto  1.93  5069    verde  4 Paciente 4    34 23/10/2015
+## 17 Dinamarca  Claudio  1.59  3258 castanho  4 Paciente 4    34 23/10/2015
+## 18    Brasil     Joao  1.63  6358     azul  4 Paciente 4    34 23/10/2015
+## 19   Espanha     Jose  1.59  1258     azul  4 Paciente 4    34 23/10/2015
+## 20   Holanda Gilberto  1.58  4555 castanho  4 Paciente 4    34 23/10/2015
+## 21       EUA  Alberto  1.93  5069    verde  5 Paciente 5    38 31/10/2015
+## 22 Dinamarca  Claudio  1.59  3258 castanho  5 Paciente 5    38 31/10/2015
+## 23    Brasil     Joao  1.63  6358     azul  5 Paciente 5    38 31/10/2015
+## 24   Espanha     Jose  1.59  1258     azul  5 Paciente 5    38 31/10/2015
+## 25   Holanda Gilberto  1.58  4555 castanho  5 Paciente 5    38 31/10/2015
+## 26       EUA  Alberto  1.93  5069    verde  6 Paciente 6    37 28/10/2015
+## 27 Dinamarca  Claudio  1.59  3258 castanho  6 Paciente 6    37 28/10/2015
+## 28    Brasil     Joao  1.63  6358     azul  6 Paciente 6    37 28/10/2015
+## 29   Espanha     Jose  1.59  1258     azul  6 Paciente 6    37 28/10/2015
+## 30   Holanda Gilberto  1.58  4555 castanho  6 Paciente 6    37 28/10/2015
+## 31       EUA  Alberto  1.93  5069    verde  7 Paciente 7    41 27/10/2015
+## 32 Dinamarca  Claudio  1.59  3258 castanho  7 Paciente 7    41 27/10/2015
+## 33    Brasil     Joao  1.63  6358     azul  7 Paciente 7    41 27/10/2015
+## 34   Espanha     Jose  1.59  1258     azul  7 Paciente 7    41 27/10/2015
+## 35   Holanda Gilberto  1.58  4555 castanho  7 Paciente 7    41 27/10/2015
+##    Diabete Status
+## 1   Tipo 1   Ruim
+## 2   Tipo 1   Ruim
+## 3   Tipo 1   Ruim
+## 4   Tipo 1   Ruim
+## 5   Tipo 1   Ruim
+## 6   Tipo 2    Bom
+## 7   Tipo 2    Bom
+## 8   Tipo 2    Bom
+## 9   Tipo 2    Bom
+## 10  Tipo 2    Bom
+## 11  Tipo 2    Bom
+## 12  Tipo 2    Bom
+## 13  Tipo 2    Bom
+## 14  Tipo 2    Bom
+## 15  Tipo 2    Bom
+## 16  Tipo 1   Ruim
+## 17  Tipo 1   Ruim
+## 18  Tipo 1   Ruim
+## 19  Tipo 1   Ruim
+## 20  Tipo 1   Ruim
+## 21  Tipo 1  Medio
+## 22  Tipo 1  Medio
+## 23  Tipo 1  Medio
+## 24  Tipo 1  Medio
+## 25  Tipo 1  Medio
+## 26  Tipo 1   Bom 
+## 27  Tipo 1   Bom 
+## 28  Tipo 1   Bom 
+## 29  Tipo 1   Bom 
+## 30  Tipo 1   Bom 
+## 31  Tipo 1   Ruim
+## 32  Tipo 1   Ruim
+## 33  Tipo 1   Ruim
+## 34  Tipo 1   Ruim
+## 35  Tipo 1   Ruim
+\end{verbatim}
+
+\end{document}

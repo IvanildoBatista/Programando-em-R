@@ -1,0 +1,163 @@
+---
+title: "Dataframes"
+author: "Ivanildo Batista"
+date: "13 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Trabalhando com Dataframes
+```{r}
+#criando dataframes
+df=data.frame() #um dataframe vazio
+class(df)#verificando a classe
+df #nao possui nem linhas nem colunas
+```
+
+```{r}
+#criando vetores vazios
+nomes = character() #vetor de caracteres
+idades = numeric() #vetor de números
+data = as.Date(character()) #vetor de datas
+codigos = integer() #vetor de inteiros
+```
+
+```{r}
+#transformando esses vetores em um dataframe
+df = data.frame(c(nomes,idades,data,codigos))
+df
+```
+
+```{r}
+#criando vetores
+
+pais = c('EUA','Dinamarca','Brasil','Espanha','Holanda')
+nome = c('Alberto','Claudio','Joao','Jose','Gilberto')
+altura = c(1.93,1.59,1.63,1.59,1.58)
+codigo = c(5069,3258,6358,1258,4555)
+```
+
+```{r}
+#criando o dataframe
+pesq = data.frame(pais,nome,altura,codigo)
+pesq
+```
+
+```{r}
+#inserindo uma nova coluna
+olhos = c('verde','castanho','azul','azul','castanho')
+
+pesq = cbind(pesq,olhos)
+pesq
+```
+
+```{r}
+#informacoes sobre o dataframe
+
+str(pesq) #informacoes gerais do dataframe
+dim(pesq) #dimensao do dataframe
+length(pesq) #comprimento do dataframe
+```
+
+```{r}
+# Obtendo um vetor do dataframe
+pesq$pais
+pesq$altura
+```
+
+```{r}
+#Extraindo um valor unico do dataframe
+
+pesq[1,1]
+pesq[3,2]
+```
+
+```{r}
+#numero de linhas e de colunas do dataframe
+
+nrow(pesq)
+ncol(pesq)
+```
+
+```{r}
+#primeiros elementos do dataframe
+head(pesq)
+head(mtcars)
+```
+
+```{r}
+#ultimos elementos do dataframe
+tail(pesq)
+tail(mtcars)
+```
+
+```{r}
+#filtrando o dataframe
+pesq[altura<1.60]
+pesq[altura<1.60, c('codigo','olhos')] #selecionada as colunas codigo e olhos, para os valores de altura menores que 1.60
+```
+
+```{r}
+#nomeando dataframes
+
+names(pesq) = c('Pais','Nome','Altura','Codigos','Olhos')
+pesq
+
+colnames(pesq) = c('Var 1','Var 2','Var 3','Var 4','Var 5') #renomeando apenas colunas
+pesq
+
+rownames(pesq) = c("Obs 1","Obs 2","Obs 3","Obs 4","Obs 5") #renomeando apenas as linhas
+pesq
+```
+
+```{r}
+#formas de ler bases de dados:
+
+##read.csv() - arquivos csv
+##read.xls() - arquivos excel
+##read.spss() - arquivos spss
+##read.mtp() - arquivos minitab
+##read.table() - arquivos txt
+##read.delim() - leitura de arquivos delimitados
+```
+
+```{r}
+#dataframe de um arquivo csv
+
+df2 = data.frame(read.csv(file = 'C:/Users/junio/dframe.csv',header = TRUE, sep = ','))
+```
+
+```{r}
+df2 #imprimindo do dataframe
+```
+
+```{r}
+head(df2) #primeiras linhas do dataframe
+summary(df2) #sumario do dataframe
+```
+
+```{r}
+df2$Diabete #coluna diabetes
+df2$status #retorna um valor nulo, pois o certo e Status
+df2$Status #forma correta
+```
+
+```{r}
+plot(df2$Idade, ylim = c(20,62)) #gerando um grafico da coluna selecionada
+```
+
+```{r}
+#usando a base mtcars
+summary(mtcars$mpg)
+plot(mtcars$mpg, mtcars$disp, ylim = c(80,400)) #grafico de dispersao entre duas variaveis
+plot(mtcars$mpg, mtcars$wt, ylim = c(0,6)) #outro grafico de dispersao entre duas variaveis
+```
+
+```{r}
+#combinando dataframes
+df3 = merge(pesq,df2)
+df3
+```
