@@ -1,0 +1,85 @@
+---
+title: "Expressoes regulares"
+author: "Ivanildo Batista"
+date: "13 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Expressoes Regulares na linguagem R**
+
+O objetivo e identificar se existem padroes em um texto.
+
+```{r}
+#criando um vetor de texto
+str = c("Expressoes","regulares","em linguagem R","permitem busca de padroes",
+        "e exploracao de textos","podemos buscar padroes em digitos",
+        "como por exemplo","10992451280")
+
+length(str) #comprimento do vetor de texto
+
+str #imprimindo o vetor
+```
+
+Trabalhando com as funcoes
+```{r}
+#Funcao grep(): retorna o vetor de indices dos caracteres que contem o padrao especificado
+
+grep("ex",str,value = F) #indice do padrao no texto
+grep("ex",str,value = T) #texto onde o padrao foi encontrado
+grep("\\d",str,value = F) #indice dos digitos
+grep("\\d",str,value = T) #texto onde estao os digitos
+```
+
+```{r}
+#Funcao grepl(): quando um padrao e encontrado ou procura um padrao
+
+grepl("\\d",str) #procurando um padrao de digitos
+grepl("\\D",str) #buscando um padrao de nao digitos
+```
+
+```{r}
+#Funcao gsub(): Substitui os caracteres encontrados de acordo com o padrao especificado
+
+gsub("em","|",str) #onde tiver "em" ele vai substituir por "|" em "str"
+gsub("ex","EX",str, ignore.case = T) #substituindo "ex" por "EX" em "str" e
+#ignora letras maiusculas ou minusculas
+```
+
+```{r}
+#Funcao sub(): Substitui o primeiro caracter encontrado de acordo com o padrao
+              #especificado
+
+sub("em","EM",str)
+```
+
+```{r}
+#Funcoes regexpr() e gregexpr(): vao mostrar a localizacao do padrao no texto
+
+frase = "Isso é uma string"
+regexpr(pattern = "u", frase)
+gregexpr(pattern = "u", frase)
+#nesse caso o "pattern" esta na posicao 8
+```
+
+```{r}
+#Outros exemplos: eliminando elementos de um texto
+
+str2 = c("2678 e maior que 45-@????!§$",
+         "Vamos escrever 14 scripts na linguagem R")
+
+str2
+```
+
+```{r}
+gsub("\\d","",str2) #eliminando digitos por espaço
+gsub("\\D","",str2) #eliminando nao digitos
+gsub("\\S","",str2) #eliminando espacos
+gsub("[iot]","",str2) #eliminando do texto as letras "i","o" e "t"
+gsub("[[:punct:]]","",str2) #eliminando pontuacoes
+gsub("[^@]","",str2) #eliminando tudo, exceto o @
+```
+
