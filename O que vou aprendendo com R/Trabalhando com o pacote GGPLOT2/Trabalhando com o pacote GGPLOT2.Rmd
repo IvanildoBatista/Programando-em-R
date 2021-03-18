@@ -1,0 +1,83 @@
+---
+title: "Trabalhando com GGplot2"
+author: "Ivanildo Batista"
+date: "27 de janeiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GGPLOT2
+
+Pacote da linguagem *R* para visualizacao de dados
+
+**Instalando o pacote**
+```{r}
+library(ggplot2)
+```
+
+**Plotando um grafico basico**
+```{r}
+data(tips, package = 'reshape2')
+qplot(total_bill, tip, data=tips, geom = "point")
+```
+
+**Criando camadas**
+
+**Camada 1**
+```{r}
+camada1 = geom_point(mapping = aes(x=total_bill, y=tip, color=sex), data = tips,
+                     size=3)
+ggplot() + camada1
+```
+
+**Construindo um modelo de regressao**
+```{r}
+modelo_base = lm(tip~total_bill, data=tips)
+modelo_fit = data.frame(total_bill=tips$total_bill, 
+                        predict(modelo_base,interval="confidence"))
+
+head(modelo_fit)
+```
+
+**Camada 2**
+```{r}
+camada2 = geom_line(mapping=aes(x=total_bill, y=fit),
+                    data=modelo_fit, color='darkred')
+
+ggplot() + camada1 + camada2
+```
+
+**Camada 3**
+```{r}
+camada3 = geom_ribbon(mapping = aes(x=total_bill, ymin = lwr, ymax = upr),
+                      data=modelo_fit, alpha=0.3)
+
+ggplot() + camada1 + camada2 + camada3
+```
+
+**Versao final otimizada**
+```{r}
+ggplot(tips, aes(x=total_bill, y=tip))+
+  geom_point(aes(color=sex))+
+  geom_smooth(method = 'lm')
+```
+
+**Gravando em um objeto**
+```{r}
+myplot = ggplot(tips, aes(x=total_bill, y=tip))+
+  geom_point(aes(color=sex))+
+  geom_smooth(method = 'lm')
+```
+
+**Imprimindo a variavel onde o grafico foi armazenado**
+```{r}
+print(myplot)
+```
+
+**Verificando a classe do objeto**
+```{r}
+class(myplot)
+```
