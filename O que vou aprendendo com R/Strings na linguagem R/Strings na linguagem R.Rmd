@@ -1,0 +1,126 @@
+---
+title: "Strings na linguagem R"
+author: "Ivanildo Batista"
+date: "19 de março de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Strings são conjuntos de caracteres ou vetores de caracteres.
+```{r}
+#Criando uma string
+texto = 'Isso é uma string'
+texto
+```
+
+```{r}
+#transformando em caracteres
+
+x=as.character(3.14)
+x
+class(x)
+```
+
+```{r}
+# Concatenando Strings
+nome = 'Barack';sobrenome='Obama'
+
+paste(nome, sobrenome)
+cat(nome, sobrenome)
+```
+
+```{r}
+#Formatando a saída
+sprintf('%s governa os EUA há %d anos','Donald Trump',4)
+```
+
+```{r}
+#Extraindo partes de uma string
+substr(texto, start = 12,stop = 17)#selecionado do caracter 12 até o caracter 17
+```
+
+```{r}
+#Contando o número de caracteres
+nchar(texto)
+```
+
+```{r}
+
+#Alterando a capitalização
+tolower(texto) #tudo em letras minúsculas
+toupper(texto) #tudo em letras maiúsculas
+```
+
+Trabalhando com a biblioteca **stringr**
+```{r}
+#importando a biblioteca
+library(stringr)
+```
+
+```{r}
+#Dividindo uma string em caracteres
+
+strsplit('Histograma e Elementos de dados',NULL)#vai separar por letra
+strsplit('Histograma e Elementos de dados',' ')#vai separa por palavra
+
+#Vetores e strings
+
+string1 = c('Uva é a minha fruta predileta',
+            'Maçã é a fruta que eu menos gosto')
+
+string2 = c('A cor vermelha não combina com amarelo',
+            'A cor azul combina com o meu terno azul marinho')
+
+str_c(c(string1,string2)) #juntando os dois vetores de strings
+str_count(string2,'m') #contar quantas vezes aparece uma letra
+str_locate(string2,'m') #primeira e última posição que o caracter se encontra
+str_locate_all(string2,'m') #todos as posições que o caracter se encontra
+str_replace(string2,'\\a','') #substitui primeira ocorrência do caracter
+str_replace_all(string2,'\\a','') #substitui todas as ocorrências
+```
+
+```{r}
+#Detectando padrões
+
+string3 = '23 maio 2000'
+string4 = '1 maio 2000'
+
+padrao = 'maio 2000'#definindo o padrão
+```
+
+```{r}
+#verificando se há uma padrão nas strings
+grepl(pattern = padrao, x=string3)
+grepl(pattern = padrao, x=string4)
+
+novo_padrao = 'maio2000'
+
+#verificando novamente
+grepl(pattern = novo_padrao,x=string3)
+grepl(pattern = novo_padrao,x=string4)
+```
+
+Importando arquivos txt
+```{r}
+arquivo = read.csv("https://raw.github.com/lhmet/adar-ufsm/master/data/CHUVAS.TXT")
+
+head(arquivo) #primeiras linhas do arquivo
+tail(arquivo) #últimas linhas do arquivo
+str_count(arquivo,'7') #quantas vezes aparece o caracter
+str_locate_all(arquivo,'7') #todas as localizações do caracter
+```
+
+
+Criando funções para manipular strings
+```{r}
+strtail = function(s, n=1){
+  if (n<0)
+    substring(s,1-n)
+  else
+    substring(s,nchar(s)-n+1)} #criando a função
+
+strtail('String de teste',6) #a função pegou todos os 6 valores de trás para frente
+```
