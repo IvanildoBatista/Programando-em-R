@@ -8,5 +8,7 @@ Nesse repositório irá constar meu progresso de aprendizagem na Linguagem *R* c
 
 2) *Script* do meu aprendizado na Linguagem *R*.
 
+3) Alguns trabalhos na linguagem *R*.
+
 
 
