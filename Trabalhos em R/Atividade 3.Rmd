@@ -1,0 +1,47 @@
+---
+title: "Atividade 3"
+subtitle: |
+      | Universidade Federal Rural de Pernambuco (UFRPE)
+      | Programa de Pós-Graduação em Biometria e Estat�stica Aplicada (PPGBEA) 
+      | Uso de software na análise de dados biométricos (PBEA7331)
+#subtitle: "Universidade Federal Rural de Pernambuco (UFRPE)"
+author: "Aluno : Ivanildo Batista da Silva Júnior"
+date: "26 de maio de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<div style="text-align: justify">
+
+1. Carregue o conjunto de dados `HairEyeColor` com o comando 
+
+<center>
+`data(HairEyeColor)`
+</center>
+
+e responda as seguintes perguntas fornecendo o comando no R: (a) Qual o total de pessoas na amostra? (b) Qual a proporção de homens e de mulheres na amostra? (c) Quantos são os homens de cabelos pretos? (d) Quantas mulheres têm cabelos loiros? (e) Qual a proporção de homens e de mulheres entre as pessoas ruivas? (f) Quantas pessoas tem olhos verdes?
+
+2. Considere a tabela com frequências apresentadas a seguir.
+
+<center>
+![](tabela.png){width=50%}
+</center>
+
+Armazene estas informações de forma adequada em um data.frame e exiba comandos para respoder as perguntas que seguem: (a) Qual o número total de pessoas? (b) Qual o número de fumantes e não fumantes? (c) Quantas pessoas são do sexo masculino? (d) Quantas mulheres são não fumantes?
+
+
+3. Construa uma matriz triangular superior utilizando estruturas de controle e repetição. Garanta que seus elementos sejam preenchidos com o produto de seus respectivos �ndices, conforme mostrado a seguir:
+
+
+
+
+
+
+
+
+
+
+
